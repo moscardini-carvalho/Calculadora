@@ -36,8 +36,19 @@
         </div>
     </div>
 
+    <!-- Botão para abrir histórico -->
+    <button id="toggle-history" class="history-btn">Histórico</button>
+
+    <!-- Popup de histórico -->
+    <div id="history-popup" class="history-popup">
+        <h3>Últimos cálculos</h3>
+        <ul id="history-list"></ul>
+    </div>
+
+
     <script>
         let expression = "";
+        let history = [];
 
         function press(value) {
             expression += value;
@@ -53,14 +64,37 @@
             fetch(`/calcular?expr=${encodeURIComponent(expression)}`)
                 .then(response => response.json())
                 .then(data => {
-                    expression = data.result.toString();
-                    document.getElementById("display").innerText = expression;
+                    const result = data.result.toString();
+                    history.unshift(`${expression} = ${result}`);
+                    updateHistory();
+                    expression = result;
+                    document.getElementById("display").innerText = result;
                 })
                 .catch(error => {
                     expression = "";
                     document.getElementById("display").innerText = "Erro";
                 });
         }
+
+        function updateHistory() {
+            const list = document.getElementById("history-list");
+            list.innerHTML = "";
+            history.slice(0, 10).forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = item;
+                li.onclick = () => {
+                    const result = item.split(" = ")[1];
+                    expression = result;
+                    document.getElementById("display").innerText = result;
+                };
+                list.appendChild(li);
+            });
+        }
+
+        document.getElementById("toggle-history").onclick = () => {
+            const popup = document.getElementById("history-popup");
+            popup.style.display = popup.style.display === "none" ? "block" : "none";
+        };
     </script>
 </body>
 
