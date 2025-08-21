@@ -77,9 +77,18 @@ button:hover {
     color: white;
     border-radius: 8px;
     padding: 10px;
-    display: none;
     box-shadow: 0 0 10px #000;
     z-index: 9;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.history-popup.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .history-popup h3 {
@@ -103,3 +112,18 @@ button:hover {
 .history-popup li:hover {
     background-color: #444;
 }
+
+.display.flash {
+    box-shadow: 0 0 10px #0f0;
+    transition: box-shadow 0.3s ease;
+}
+
+button:active {
+    transform: scale(0.95);
+    background-color: #555;
+}
+
+.display {
+    transition: all 0.2s ease-in-out;
+}
+

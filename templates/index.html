@@ -85,7 +85,10 @@
                 li.onclick = () => {
                     const result = item.split(" = ")[1];
                     expression = result;
-                    document.getElementById("display").innerText = result;
+                    const display = document.getElementById("display");
+                    display.innerText = result;
+                    display.classList.add("flash");
+                    setTimeout(() => display.classList.remove("flash"), 300);
                 };
                 list.appendChild(li);
             });
@@ -93,7 +96,7 @@
 
         document.getElementById("toggle-history").onclick = () => {
             const popup = document.getElementById("history-popup");
-            popup.style.display = popup.style.display === "none" ? "block" : "none";
+            popup.classList.toggle("show");
         };
     </script>
 </body>
